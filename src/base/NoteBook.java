@@ -27,6 +27,7 @@ public class NoteBook {
 			}
 		}
 		
+		
 		if (f==null){
 			f =new Folder(folderName);
 			folders.add(f);
