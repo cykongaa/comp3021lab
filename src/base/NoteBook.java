@@ -33,7 +33,7 @@ public class NoteBook {
 		}
 		
 		for (Note n: f.getNotes()){
-			if (n.getTitle().equals(note.getTitle())){
+			if (n.equals(note)){
 				System.out.println("Creating note " + note.getTitle() + " under folder " + folderName + " failed");
 				return false;
 			}
