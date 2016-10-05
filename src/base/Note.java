@@ -1,32 +1,34 @@
 package base;
-import java.util.Date;
 
-public class Note implements Comparable<Note>{
+import java.util.Date;
+import java.io.Serializable;
+
+public class Note implements Comparable<Note>, Serializable {
 
 	private Date date;
 	private String title;
-	
-	public Note(String title){
-		this.title=title;
+
+	public Note(String title) {
+		this.title = title;
 		this.date = new Date(System.currentTimeMillis());
 	}
-	
-	public String getTitle(){
+
+	public String getTitle() {
 		return this.title;
 	}
-	
-	public String getContent(){
+
+	public String getContent() {
 		return null;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return date.toString() + "\t" + title;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		Note other = (Note) obj;
 		if (title == null) {
 			if (other.title != null)
@@ -35,16 +37,15 @@ public class Note implements Comparable<Note>{
 			return false;
 		return true;
 	}
-	
+
 	@Override
-	public int compareTo(Note o){
-		if ((this.date).after(o.date)){
+	public int compareTo(Note o) {
+		if ((this.date).after(o.date)) {
 			return -1;
-		}
-		else if ((this.date).before(o.date)){
+		} else if ((this.date).before(o.date)) {
 			return 1;
-		}
-		else return 0;
+		} else
+			return 0;
 	}
-	
+
 }

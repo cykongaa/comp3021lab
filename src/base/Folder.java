@@ -3,10 +3,12 @@ package base;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.io.Serializable;
 
-public class Folder implements Comparable<Folder> {
+public class Folder implements Comparable<Folder>, Serializable {
 
 	private ArrayList<Note> notes;
+	private static final long serialVersionUID = 1L;
 	private String name;
 
 	public Folder(String name) {
@@ -43,29 +45,33 @@ public class Folder implements Comparable<Folder> {
 			int i = 0;
 
 			if (n instanceof ImageNote) {
-				//System.out.println("ImageNote");
+				// System.out.println("ImageNote");
 				while (i < keys.length) {
-					//if (!keys[i].equals("or")) {
-				  if (i != keys.length - 1) {
+					// if (!keys[i].equals("or")) {
+					if (i != keys.length - 1) {
 						if (!keys[i + 1].toLowerCase().equals("or")) {
 							if ((n.getTitle().toLowerCase()).contains(keys[i])) {
 								matched = true;
-								//System.out.println("true " + n.getTitle() + " " + keys[i]);
+								// System.out.println("true " + n.getTitle() + "
+								// " + keys[i]);
 								i++;
 							} else {
 								matched = false;
-								//System.out.println("false " + n.getTitle() + " " + keys[i]);
+								// System.out.println("false " + n.getTitle() +
+								// " " + keys[i]);
 								break;
 							}
 						} else if (keys[i + 1].toLowerCase().equals("or")) {
 							if (((n.getTitle().toLowerCase()).contains(keys[i]))
 									|| (n.getTitle().toLowerCase().contains(keys[i + 2]))) {
 								matched = true;
-								//System.out.println("true " + n.getTitle() + " " + keys[i] + " or " + keys[i + 2]);
+								// System.out.println("true " + n.getTitle() + "
+								// " + keys[i] + " or " + keys[i + 2]);
 								i = i + 3;
 							} else {
 								matched = false;
-								//System.out.println("false" + n.getTitle() + " " + keys[i] + " or " + keys[i + 2]);
+								// System.out.println("false" + n.getTitle() + "
+								// " + keys[i] + " or " + keys[i + 2]);
 								break;
 							}
 
@@ -73,11 +79,13 @@ public class Folder implements Comparable<Folder> {
 					} else {
 						if ((n.getTitle().toLowerCase()).contains(keys[i])) {
 							matched = true;
-							//System.out.println("true" + n.getTitle() + " " + keys[i]);
+							// System.out.println("true" + n.getTitle() + " " +
+							// keys[i]);
 							i++;
 						} else {
 							matched = false;
-							//System.out.println("false" + n.getTitle() + " " + keys[i]);
+							// System.out.println("false" + n.getTitle() + " " +
+							// keys[i]);
 							break;
 						}
 
@@ -89,33 +97,33 @@ public class Folder implements Comparable<Folder> {
 					result.add(n);
 				}
 			} else if (n instanceof TextNote) {
-				//System.out.println("TextNote");
+				// System.out.println("TextNote");
 				while (i < keys.length) {
-					//if (!keys[i].toLowerCase().equals("or")) {
+					// if (!keys[i].toLowerCase().equals("or")) {
 					if (i != keys.length - 1) {
 						if (!keys[i + 1].toLowerCase().equals("or")) {
 
 							if ((n.getTitle().toLowerCase()).contains(keys[i])
 									|| n.getContent().toLowerCase().contains(keys[i])) {
 								matched = true;
-								//System.out.println("true");
+								// System.out.println("true");
 								i++;
 							} else {
 								matched = false;
-								//System.out.println("false");
+								// System.out.println("false");
 								break;
 							}
-						} else if (keys[i+1].toLowerCase().equals("or")) {
+						} else if (keys[i + 1].toLowerCase().equals("or")) {
 							if (((n.getTitle().toLowerCase()).contains(keys[i]))
 									|| (n.getTitle().toLowerCase().contains(keys[i + 2]))
 									|| (n.getContent().toLowerCase().contains(keys[i]))
 									|| (n.getContent().toLowerCase().contains(keys[i + 2]))) {
 								matched = true;
-								//System.out.println("true");
+								// System.out.println("true");
 								i = i + 3;
 							} else {
 								matched = false;
-								//System.out.println("false");
+								// System.out.println("false");
 								break;
 							}
 
@@ -125,11 +133,11 @@ public class Folder implements Comparable<Folder> {
 						if ((n.getTitle().toLowerCase()).contains(keys[i])
 								|| n.getContent().toLowerCase().contains(keys[i])) {
 							matched = true;
-							//System.out.println("true");
+							// System.out.println("true");
 							i++;
 						} else {
 							matched = false;
-							//System.out.println("false");
+							// System.out.println("false");
 							break;
 						}
 					}
