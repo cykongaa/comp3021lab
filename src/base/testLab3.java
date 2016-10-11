@@ -32,6 +32,7 @@ public class testLab3 {
 			}
 		}
 		
+//	    List<Note> notes = nb.searchNotes("java or LAB OR SESSION attendance");
 		List<Note> notes = nb.searchNotes("java or LAB attendance OR SESSION");
 		System.out.println("Search Results:");
 		if (notes == null || notes.size() == 0) {

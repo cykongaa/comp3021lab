@@ -34,117 +34,95 @@ public class Folder implements Comparable<Folder>, Serializable {
 
 	public List<Note> searchNotes(String keywords) {
 		List<Note> result = new ArrayList<Note>();
-		String[] keys = keywords.split(" ");
+		String[] keys = keywords.toLowerCase().split("(\\s+)");
 		for (int i = 0; i < keys.length; i++) {
 			keys[i] = keys[i].toLowerCase();
+			 //System.out.println(i + " :" + keys[i] + " ");
 		}
 
-		boolean matched = false;
+		ArrayList<String> orArray = new ArrayList<>();
+		ArrayList<String> andArray = new ArrayList<>();
+
+		int j = 0;
+
+		while (j < keys.length) {
+			String s = "";
+			if (j + 1 < keys.length && keys[j + 1].equals("or")) {
+				while (j + 1 < keys.length && keys[j + 1].equals("or")) {
+					s = s + " " + keys[j];
+					j = j + 2;
+				}
+				s = s + " " + keys[j];
+				orArray.add(s);
+				j = j + 1;
+			} else {
+				andArray.add(keys[j]);
+				j = j + 1;
+			}
+		}
+		// System.out.println(keys.length);
+//		 System.out.println("orArray");
+//		;
+//		for (String s : orArray) {
+//			 System.out.println(s);
+//		}
+//
+//		 System.out.println("andArray");
+//
+		if (!orArray.isEmpty()) {
+			andArray.addAll(orArray);
+		}
+//		for (String s : andArray) {
+//			 System.out.println(s);
+//		}
+//		System.out.println(orArray.size());
 
 		for (Note n : this.getNotes()) {
-			int i = 0;
+
+			boolean matched = true;
 
 			if (n instanceof ImageNote) {
-				// System.out.println("ImageNote");
-				while (i < keys.length) {
-					// if (!keys[i].equals("or")) {
-					if (i != keys.length - 1) {
-						if (!keys[i + 1].toLowerCase().equals("or")) {
-							if ((n.getTitle().toLowerCase()).contains(keys[i])) {
-								matched = true;
-								// System.out.println("true " + n.getTitle() + "
-								// " + keys[i]);
-								i++;
-							} else {
-								matched = false;
-								// System.out.println("false " + n.getTitle() +
-								// " " + keys[i]);
-								break;
-							}
-						} else if (keys[i + 1].toLowerCase().equals("or")) {
-							if (((n.getTitle().toLowerCase()).contains(keys[i]))
-									|| (n.getTitle().toLowerCase().contains(keys[i + 2]))) {
-								matched = true;
-								// System.out.println("true " + n.getTitle() + "
-								// " + keys[i] + " or " + keys[i + 2]);
-								i = i + 3;
-							} else {
-								matched = false;
-								// System.out.println("false" + n.getTitle() + "
-								// " + keys[i] + " or " + keys[i + 2]);
-								break;
-							}
 
+				for (String k : andArray) {
+					String[] orKey = k.trim().split("\\s+");
+//					 for (int p=0; p<orKey.length; p++){
+//					 System.out.println(p + ": " +orKey[p]);
+//					 }
+					boolean tempMatched = false;
+					for (int q = 0; q < orKey.length; q++) {
+						if (n.getTitle().toLowerCase().contains(orKey[q])) {
+//							System.out.println(n.getTitle() + ": " + orKey[q] + "    true");
+							tempMatched = true;
 						}
-					} else {
-						if ((n.getTitle().toLowerCase()).contains(keys[i])) {
-							matched = true;
-							// System.out.println("true" + n.getTitle() + " " +
-							// keys[i]);
-							i++;
-						} else {
-							matched = false;
-							// System.out.println("false" + n.getTitle() + " " +
-							// keys[i]);
-							break;
-						}
-
 					}
-
+					matched = matched && tempMatched;
 				}
-
 				if (matched == true) {
+//					System.out.println(n.getTitle());
 					result.add(n);
 				}
 			} else if (n instanceof TextNote) {
-				// System.out.println("TextNote");
-				while (i < keys.length) {
-					// if (!keys[i].toLowerCase().equals("or")) {
-					if (i != keys.length - 1) {
-						if (!keys[i + 1].toLowerCase().equals("or")) {
 
-							if ((n.getTitle().toLowerCase()).contains(keys[i])
-									|| n.getContent().toLowerCase().contains(keys[i])) {
-								matched = true;
-								// System.out.println("true");
-								i++;
-							} else {
-								matched = false;
-								// System.out.println("false");
-								break;
-							}
-						} else if (keys[i + 1].toLowerCase().equals("or")) {
-							if (((n.getTitle().toLowerCase()).contains(keys[i]))
-									|| (n.getTitle().toLowerCase().contains(keys[i + 2]))
-									|| (n.getContent().toLowerCase().contains(keys[i]))
-									|| (n.getContent().toLowerCase().contains(keys[i + 2]))) {
-								matched = true;
-								// System.out.println("true");
-								i = i + 3;
-							} else {
-								matched = false;
-								// System.out.println("false");
-								break;
-							}
-
-						}
-					} else {
-
-						if ((n.getTitle().toLowerCase()).contains(keys[i])
-								|| n.getContent().toLowerCase().contains(keys[i])) {
-							matched = true;
-							// System.out.println("true");
-							i++;
-						} else {
-							matched = false;
-							// System.out.println("false");
-							break;
+//				System.out.println("textnotes");
+//				System.out.println(andArray.size());
+				for (String k : andArray) {
+					String[] orKey = k.trim().split("\\s+");
+					
+//					for (int p = 0; p < orKey.length; p++) {
+//						System.out.println(p + ": " + orKey[p]);
+//					}
+					boolean tempMatched = false;
+					for (int q = 0; q < orKey.length; q++) {
+						if (n.getTitle().toLowerCase().contains(orKey[q]) || n.getContent().toLowerCase().contains(orKey[q])) {
+//							System.out.println(n.getTitle()  + ": " + orKey[q] + "    true");
+							tempMatched = true;
 						}
 					}
-
+					matched = matched && tempMatched;
 				}
 
 				if (matched == true) {
+//					System.out.println(n.getTitle());
 					result.add(n);
 				}
 			}
