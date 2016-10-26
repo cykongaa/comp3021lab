@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 public class TextNote extends Note {
 	public String content;
@@ -25,6 +28,11 @@ public class TextNote extends Note {
 	@Override
 	public String getContent() {
 		return content;
+	}
+	
+	@Override
+	public void setContent(String content){
+		this.content=content;
 	}
 
 	/**
@@ -113,10 +121,11 @@ public class TextNote extends Note {
 		return;
 
 	}
-	
-	//Find the character that appears the most
-	public Character countLetters(){
-		HashMap<Character,Integer> count = new HashMap<Character,Integer>();
+
+	// Find the character that appears the most
+	public ArrayList<Character> countLetters() {
+		HashMap<Character, Integer> count = new HashMap<Character, Integer>();
+		ArrayList<Character> result = new ArrayList<Character>();
 		String a = this.getTitle() + this.getContent();
 		int b = 0;
 		Character r = ' ';
@@ -127,14 +136,21 @@ public class TextNote extends Note {
 					count.put(c, 1);
 				} else {
 					count.put(c, count.get(c) + 1);
-					if (count.get(c) > b) {
-						b = count.get(c);
-						r = c;
-					}
+				}
+				if (count.get(c) >= b) {
+					b = count.get(c);
+					r = c;
 				}
 			}
+
 		}
-		return r;
+		System.out.println(b);
+		for (Character o : count.keySet()) {
+			if (count.get(o).equals(b)) {
+				result.add((Character) o);
+			}
+		}
+		return result;
 	}
 
 }

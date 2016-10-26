@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
 
 
 import org.junit.Test;
@@ -53,9 +54,18 @@ public class JUnitTest {
 		
 		for (Note n : notes){
 			if (n instanceof TextNote){
-				Character c =((TextNote) n).countLetters();
-				System.out.println(c);
-				assertEquals("The chacacter does not appear the most!", new Character('e'), c);
+				ArrayList<Character> c =((TextNote) n).countLetters();
+				ArrayList<Character> expected = new ArrayList<Character>();
+				expected.add('e');
+				expected.add('t');
+				//System.out.println(c);
+				for (Character k:c){
+					System.out.println(k);
+				}
+				
+				
+				assertEquals("There are other characters with the same count!", expected , c);
+				//assertEquals("There are other characters with the same count!", new Character('e'), c.get(1));
 			}
 		}
 			

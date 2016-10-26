@@ -22,7 +22,8 @@ public class NoteBook implements Serializable {
 	 *
 	 * Constructor of an object NoteBook from an object serialization on disk
 	 *
-	 * @param file, the path of the file for loading the object serialization
+	 * @param file,
+	 *            the path of the file for loading the object serialization
 	 */
 	public NoteBook(String file) {
 		FileInputStream fis = null;
@@ -105,7 +106,8 @@ public class NoteBook implements Serializable {
 	/**
 	 * method to save the NoteBook instance to file
 	 *
-	 * @param file, the path of the file where to save the object serialization
+	 * @param file,
+	 *            the path of the file where to save the object serialization
 	 * @return true if save on file is successful, false otherwise
 	 */
 	public boolean save(String file) {
@@ -123,6 +125,11 @@ public class NoteBook implements Serializable {
 			return false;
 		}
 		return true;
+	}
+
+	public void addFolder(String folderName) {
+		// TO DO
+		this.folders.add(new Folder(folderName));
 	}
 
 }

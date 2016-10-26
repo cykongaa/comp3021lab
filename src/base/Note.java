@@ -21,6 +21,10 @@ public class Note implements Comparable<Note>, Serializable {
 		return null;
 	}
 
+	public void setContent(String content) {
+
+	}
+
 	@Override
 	public String toString() {
 		return date.toString() + "\t" + title;
