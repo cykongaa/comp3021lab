@@ -55,6 +55,7 @@ public class PokemonScreenLAB9 extends Application {
 	double currentPosy = 0;
 
 	protected boolean stop = false;
+	private boolean avatarChanged = false;
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -191,20 +192,27 @@ public class PokemonScreenLAB9 extends Application {
 		final double cy = avatar.getBoundsInLocal().getHeight() / 2;
 
 		if (x - cx >= 0 && x + cx <= W && y - cy >= 0 && y + cy <= H) {
+
 			// relocate ImageView avatar
 			avatar.relocate(x - cx, y - cy);
 			// update position
 			currentPosx = x - cx;
 			currentPosy = y - cy;
 
+			avatarChanged = true;
 			// I moved the avatar lets set stop at true and wait user release
 			// the key :)
 			stop = true;
+		} else {
+			System.out.println("out of bound");
+			avatarChanged = false;
 		}
 	}
 
 	private void movePikachu(double x, double y) {
-		pikachu.relocate(x, y);
+		if (avatarChanged == true) {
+			pikachu.relocate(x, y);
+		}
 	}
 
 	public static void main(String[] args) {
