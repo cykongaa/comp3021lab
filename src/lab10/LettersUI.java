@@ -68,7 +68,7 @@ public class LettersUI extends Application {
 	public void showText(Text text, boolean show) {
 		// the parameter show tells if the text has to appear o disappear
 		if (show) {
-			System.out.println(text.getText() + " show is true");
+//			System.out.println(text.getText() + " show is true");
 			lock.lock();
 			try {
 				while (!locked) {
