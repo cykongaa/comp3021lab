@@ -18,7 +18,7 @@ public class LettersUI extends Application {
 	final static int SCENE_WIDTH = 300;
 	final static int SCENE_HEIGHT = 150;
 
-	private static boolean locked=false;
+	private static boolean busy = true;
 	private final Lock lock = new ReentrantLock();
 	private final Condition condition = lock.newCondition();
 
@@ -68,46 +68,33 @@ public class LettersUI extends Application {
 	public void showText(Text text, boolean show) {
 		// the parameter show tells if the text has to appear o disappear
 		if (show) {
-			System.out.println(text.getText() + " show is true");
 			lock.lock();
 			try {
-				while (!locked) {
+				while (!busy) {
 					try {
-						
-						System.out.println(text.getText() +" be4 await");
-						
 						condition.await();
-						text.setVisible(true);
-						System.out.println(text.getText()+ " after await");
-						
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
+				busy = false;
+				text.setVisible(true);
 			} finally {
-			
 				lock.unlock();
 			}
-			
-
 		} else {
-			
+
 			lock.lock();
 			try {
-				
-				locked=true;
-				System.out.println(text.getText() + " be4 signal");
+				busy = true;
 				text.setVisible(false);
-				condition.signal();		
-				System.out.println(text.getText() + " after signal");
-				
-				
+				condition.signal();
+
 			} finally {
-			
 				lock.unlock();
 			}
 		}
-		
+
 	}
 
 	class MyTask implements Runnable {
