@@ -50,25 +50,9 @@ public class NumbersLambda {
 
 	public static Predicate<Integer> isPalindrome() {
 		// TODO: Task 2
-		return x -> isPalindromeInt(x);
+		return x -> Integer.toString(x).equals( new StringBuilder(Integer.toString(x)).reverse().toString());
 	}
 
-	public static boolean isPalindromeInt(int n) {
-		int origin = n;
-		int reverse = 0;
-
-		while (n > 0) {
-			int r = n % 10;
-			reverse = reverse * 10 + r;
-			n = n / 10;
-		}
-
-		if (origin == reverse)
-			return true;
-		else
-			return false;
-
-	}
 
 	public static void main(String[] args) {
 		List<Integer> numbers = Arrays.asList(480, 514, 484, 389, 709, 935, 328, 169, 649, 300, 685, 429, 243, 532, 308,
